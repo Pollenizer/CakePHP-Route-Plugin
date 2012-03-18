@@ -4,10 +4,10 @@ A CakePHP Plugin for handling all your database-driven routing needs.
 
 ## Installation
 
--   Copy the plugin to ``app/Plugin/Route``
--   Execute the schema generation SQL in ``app/Plugin/Route/Config/Schema/db_route.sql``
+1.   Copy the plugin to ``app/Plugin/Route``
+1.   Execute the schema generation SQL in ``app/Plugin/Route/Config/Schema/db_route.sql``
 
-    CREATE TABLE `routes` (
+    ```CREATE TABLE `routes` (
      `id` INT(10) NOT NULL AUTO_INCREMENT,
      `name` VARCHAR(255) NOT NULL,
      `value` VARCHAR(255) NOT NULL,
@@ -16,13 +16,13 @@ A CakePHP Plugin for handling all your database-driven routing needs.
      KEY `name` (`name`),
      KEY `value` (`value`),
      UNIQUE KEY `key` (`key`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;```
 
--   Enable the plugin in ``app/Config/bootstrap.php``
+1.   Enable the plugin in ``app/Config/bootstrap.php``
 
 ## Configuration
 
-### Automatically creating routes Using the Routable Behavior
+### Automatically creating routes using the Routable Behavior
 
 Attach the Routable Behavior to the models for which you want to create routes
 
