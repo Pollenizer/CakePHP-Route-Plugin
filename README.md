@@ -29,7 +29,11 @@ Many applications have the need to use "friendly" URLs like ``example.com/posts/
 
 The problem with this approach is that the friendly URL is intrinsically tied to the model. What happens if you then want friendly URLs for Users, or Tags, or anything else? The answer is you'll need to add ``slug`` fields to all these models and adjust your routes configuration accordingly.
 
-The CakePHP Route Plugin abstracts this functionality by providing a handy collection of classes to automate the creation, storage and use of custom routes.
+The CakePHP Route Plugin abstracts this functionality by providing a handy collection of classes to automate the creation, storage and use of custom routes. It lets you create links the "Cake" way:
+
+    $this->Html->link($post['Post']['title'], array('controller' => 'posts', 'action' => 'view', $post['Post']['id']))
+
+Sitting quietly and cleverly off to the side whilst it automatically handles both forward and reverse routing of your URLs.
 
 ## Installation
 
