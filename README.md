@@ -31,7 +31,7 @@ The problem with this approach is that the friendly URL is intrinsically tied to
 
 The CakePHP Route Plugin abstracts this functionality by providing a handy collection of classes to automate the creation, storage and use of custom routes. It lets you create links the "Cake" way:
 
-    $this->Html->link($post['Post']['title'], array('controller' => 'posts', 'action' => 'view', $post['Post']['id']))
+    $this->Html->link($post['Post']['title'], array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));
 
 Sitting quietly and cleverly off to the side whilst it automatically handles both forward and reverse routing of your URLs.
 
@@ -41,13 +41,7 @@ Sitting quietly and cleverly off to the side whilst it automatically handles bot
 1.   Create the ``routes`` table by executing the schema generation SQL in ``app/Plugin/Route/Config/Schema/db_route.sql``
 1.   Enable the plugin in ``app/Config/bootstrap.php``
 
-
-    CakePlugin::loadAll(array(
-        'Route' => array(
-            'routes' => true
-        )
-    ));
-
+    ```CakePlugin::loadAll(array('Route' => array('routes' => true)));```
 
 ## Usage
 
