@@ -43,32 +43,5 @@ class Route extends RouteAppModel
                 'required' => true,
             ),
         ),
-        'key' => array(
-            'notEmpty' => array(
-                'rule' => array('notEmpty'),
-                'message' => 'Please enter a route key. This is the unique key which is used to ensure uniqueness of a route',
-                'allowEmpty' => false,
-                'required' => true,
-            ),
-            'isUnique' => array(
-                'rule' => array('isUnique'),
-                'message' => 'This route already exists',
-                'allowEmpty' => false,
-                'required' => true,
-            ),
-        ),
     );
-
-    /**
-     * Before Validate
-     *
-     * @return boolean
-     */
-    public function beforeValidate()
-    {
-        if ((!empty($this->data[$this->alias]['name'])) && (!empty($this->data[$this->alias]['value']))) {
-            $this->data[$this->alias]['key'] = sha1($this->data[$this->alias]['name'] . $this->data[$this->alias]['value']);
-        }
-        return true;
-    }
 }

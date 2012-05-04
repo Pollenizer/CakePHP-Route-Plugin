@@ -67,7 +67,7 @@ class ModelRoute extends CakeRoute
         }
         $routeName = $this->Route->field('name', array(
             'Route.value' => implode('/', array_filter($params))
-        ), 'Route.id DESC');
+        ));
         if (empty($routeName)) {
             return false;
         }
@@ -83,9 +83,11 @@ class ModelRoute extends CakeRoute
      */
     public function parse($url)
     {
+        $parts = array_filter(explode('/', $url));
+        $url = implode('/', $parts);
         $routeValue = $this->Route->field('value', array(
-            'Route.name' => substr($url, 1),
-        ), 'Route.id DESC');
+            'Route.name' => $url
+        ));
         if (empty($routeValue)) {
             return false;
         }

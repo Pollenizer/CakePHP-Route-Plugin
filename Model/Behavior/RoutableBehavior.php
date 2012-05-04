@@ -39,25 +39,72 @@ class RoutableBehavior extends ModelBehavior
      */
     public function afterSave(Model $Model, $created)
     {
-        if (!empty($this->settings[$Model->alias]['template'])) {
-            $parts = explode('/', $this->settings[$Model->alias]['template']);
-            foreach ($parts as $i => $part) {
-                if (substr($part, 0, 1) == ':') {
-                    $field = str_replace(':', '', $part);
-                    $value = substr($Model->data[$Model->alias][$field], 0, 200);
-                    $value = strtolower($value);
-                    $value = Inflector::slug($value, '-');
-                    $parts[$i] = $value;
-                }
-            }
-            $name = implode('/', $parts);
-            $value = $Model->table . '/view/' . $Model->id;
-            $this->Route = new Route();
-            $this->Route->save(array(
-                'name' => $name,
-                'value' => $value
-            ));
+        // Does the route template exist?
+        if (empty($this->settings[$Model->alias]['template'])) {
+            return;
         }
+
+        // Define template parts
+        $parts = explode('/', $this->settings[$Model->alias]['template']);
+
+        // Build the route from the template
+        foreach ($parts as $i => $part) {
+            if (substr($part, 0, 1) == ':') {
+                $field = str_replace(':', '', $part);
+                $value = substr($Model->data[$Model->alias][$field], 0, 200);
+                $value = strtolower($value);
+                $value = Inflector::slug($value, '-');
+                $parts[$i] = $value;
+            }
+        }
+
+        // Define the route id (null for CREATE by default)
+        $id = null;
+
+        // Define the route name (friendly URL)
+        $name = implode('/', $parts);
+
+        // Define the route value (system URL)
+        $value = $Model->table . '/view/' . $Model->id;
+
+        // Instantiate Route model
+        $this->Route = new Route();
+
+        // Find the route by name
+        $route = $this->Route->findByName($name);
+
+        // If the route name already exists,
+        // Ensure it's uniqueness
+        if (!empty($route)) {
+            $routeName = $name;
+            $unique = false;
+            $i = 1;
+            while (!$unique) {
+                $routeName = $name . '-' . $i;
+                $route = $this->Route->findByName($routeName);
+                if (empty($route)) {
+                    $unique = true;
+                }
+                $i++;
+            }
+            $name = $routeName;
+        }
+
+        // Find the route by value
+        $route = $this->Route->findByValue($value);
+
+        // If the route value already exists,
+        // set the id so an UPDATE occurs
+        if (!empty($route)) {
+            $id = (int) $route['Route']['id'];
+        }
+
+        // Save the route
+        $this->Route->save(array(
+            'id' => $id,
+            'name' => $name,
+            'value' => $value
+        ));
     }
 
     /**

@@ -12,9 +12,7 @@ CREATE TABLE `routes` (
  `id` INT(10) NOT NULL AUTO_INCREMENT,
  `name` VARCHAR(255) NOT NULL,
  `value` VARCHAR(255) NOT NULL,
- `key` CHAR(40) NOT NULL,
  PRIMARY KEY (`id`),
  KEY `name` (`name`),
- KEY `value` (`value`),
- UNIQUE KEY `key` (`key`)
+ KEY `value` (`value`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
