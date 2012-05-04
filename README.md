@@ -31,7 +31,11 @@ The problem with this approach is that the friendly URL is intrinsically tied to
 
 The CakePHP Route Plugin abstracts this functionality by providing a handy collection of classes to automate the creation, storage and use of custom routes. It lets you create links the "Cake" way:
 
-    $this->Html->link($post['Post']['title'], array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));
+<pre>$this->Html->link($post['Post']['title'], array(
+    'controller' => 'posts',
+    'action' => 'view',
+    $post['Post']['id']
+));</pre>
 
 Sitting quietly and cleverly off to the side whilst it automatically handles both forward and reverse routing of your URLs.
 
@@ -41,7 +45,11 @@ Sitting quietly and cleverly off to the side whilst it automatically handles bot
 1.   Create the ``routes`` table by executing the schema generation SQL in ``app/Plugin/Route/Config/Schema/db_route.sql``
 1.   Enable the plugin in ``app/Config/bootstrap.php``
 
-    ```CakePlugin::loadAll(array('Route' => array('routes' => true)));```
+<pre>CakePlugin::loadAll(array(
+    'Route' => array(
+        'routes' => true
+    )
+));</pre>
 
 ## Usage
 
@@ -49,10 +57,10 @@ Sitting quietly and cleverly off to the side whilst it automatically handles bot
 
 Attach the Routable Behavior to the models for which you want to automatically create routes.
 
-    public $actsAs = array(
-        'Route.Routable' => array(
-            'template' => 'posts/:title'
-        )
-    );
+<pre>public $actsAs = array(
+    'Route.Routable' => array(
+        'template' => 'posts/:title'
+    )
+);</pre>
 
 The ``template`` setting tells the behavior how to format the route. In the above example, if a new post is created with a ``title`` of "A Tale of Two Cities", the resulting route would be ``posts/a-tale-of-two-cities``
