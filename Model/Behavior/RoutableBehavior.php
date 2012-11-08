@@ -115,7 +115,7 @@ class RoutableBehavior extends ModelBehavior
      * @return void
      * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#aftersave
      */
-    public function setup(Model $Model, $settings)
+    public function setup(Model $Model, $settings = array())
     {
         $this->settings[$Model->alias] = $settings;
     }
