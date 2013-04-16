@@ -51,7 +51,18 @@ class RoutableBehavior extends ModelBehavior
         foreach ($parts as $i => $part) {
             if (substr($part, 0, 1) == ':') {
                 $field = str_replace(':', '', $part);
-                $value = substr($Model->data[$Model->alias][$field], 0, 200);
+    			if ($Model->isVirtualField($field)) {
+					$value = $Model->find('first', array(
+						'fields' => $field,
+						'conditions' => array($Model->alias . '.' . $Model->primaryKey => $Model->data[$Model->alias][$Model->primaryKey]),
+						'recursive' => -1,
+						));
+					$value = $value[$Model->alias][$field];
+				}
+				else {
+					$value = $Model->data[$Model->alias][$field];
+				}
+                $value = substr($value, 0, 200);
                 $value = strtolower($value);
                 $value = Inflector::slug($value, '-');
                 $parts[$i] = $value;
