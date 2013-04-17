@@ -52,12 +52,7 @@ class RoutableBehavior extends ModelBehavior
             if (substr($part, 0, 1) == ':') {
                 $field = str_replace(':', '', $part);
                 if ($Model->isVirtualField($field)) {
-                    $value = $Model->find('first', array(
-                        'fields' => $field,
-                        'conditions' => array($Model->alias . '.' . $Model->primaryKey => $Model->data[$Model->alias][$Model->primaryKey]),
-                        'recursive' => -1,
-                        ));
-                    $value = $value[$Model->alias][$field];
+                    $value = $Model->field($field, array($Model->alias . '.' . $Model->primaryKey => $Model->data[$Model->alias][$Model->primaryKey]));
                 }
                 else {
                     $value = $Model->data[$Model->alias][$field];
