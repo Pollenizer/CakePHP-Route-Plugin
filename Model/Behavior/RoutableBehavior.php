@@ -79,9 +79,9 @@ class RoutableBehavior extends ModelBehavior
         // Find the route by name
         $route = $this->Route->findByName($name);
 
-        // If the route name already exists,
-        // Ensure it's uniqueness
-        if (!empty($route)) {
+        // If the route name already exists for another route value,
+        // Ensure its uniqueness
+        if (!empty($route) && $route['Route']['value']!=$value) {
             $routeName = $name;
             $unique = false;
             $i = 1;
