@@ -51,7 +51,13 @@ class RoutableBehavior extends ModelBehavior
         foreach ($parts as $i => $part) {
             if (substr($part, 0, 1) == ':') {
                 $field = str_replace(':', '', $part);
-                $value = substr($Model->data[$Model->alias][$field], 0, 200);
+                if ($Model->isVirtualField($field)) {
+                    $value = $Model->field($field, array($Model->alias . '.' . $Model->primaryKey => $Model->data[$Model->alias][$Model->primaryKey]));
+                }
+                else {
+                    $value = $Model->data[$Model->alias][$field];
+                }
+                $value = substr($value, 0, 200);
                 $value = strtolower($value);
                 $value = Inflector::slug($value, '-');
                 $parts[$i] = $value;
@@ -73,9 +79,9 @@ class RoutableBehavior extends ModelBehavior
         // Find the route by name
         $route = $this->Route->findByName($name);
 
-        // If the route name already exists,
-        // Ensure it's uniqueness
-        if (!empty($route)) {
+        // If the route name already exists for another route value,
+        // Ensure its uniqueness
+        if (!empty($route) && $route['Route']['value']!=$value) {
             $routeName = $name;
             $unique = false;
             $i = 1;
